@@ -22,6 +22,18 @@ namespace MyCrm.UserControls
             {
                 styleCombo.Items.Add(item);
             }
+            
+            //this.passTxt.CustomButton = new MetroTextBox.MetroTextButton();
+            //this.passTxt.CustomButton.Click += (o, e) => { Console.WriteLine("test"); };
+            //this.passTxt.CustomButton.MouseClick += CustomButton_MouseClick;
+
+            //this.passTxt.ShowButton = true;
+            //this.passTxt.
+        }
+
+        private void CustomButton_MouseClick(object sender, MouseEventArgs e)
+        {
+            Console.WriteLine("tes2t");
         }
 
         private void themeCombo_SelectedIndexChanged(object sender, EventArgs e)
@@ -33,6 +45,22 @@ namespace MyCrm.UserControls
         {
             var combo = sender as MetroComboBox;
             Program.MainForm.ColorStyle = ((MetroColorStyle?)combo.SelectedItem).HasValue ? ((MetroColorStyle?)combo.SelectedItem).Value : MetroColorStyle.Default;
+        }
+
+        private void showPassLnk_MouseDown(object sender, MouseEventArgs e)
+        {
+            if ((sender as MetroLink).Name.Equals("showPassLnk"))
+                this.passTxt.PasswordChar = '\0';
+            else
+                this.passConfTxt.PasswordChar = '\0';
+        }
+
+        private void showPassLnk_MouseUp(object sender, MouseEventArgs e)
+        {
+            if ((sender as MetroLink).Name.Equals("showPassLnk"))
+                this.passTxt.PasswordChar = '*';
+            else
+                this.passConfTxt.PasswordChar = '*';
         }
     }
 }
