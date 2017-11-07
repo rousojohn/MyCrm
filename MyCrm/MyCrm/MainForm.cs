@@ -10,13 +10,14 @@ using System.Windows.Forms;
 using MetroFramework.Forms;
 using MetroFramework;
 using MyCrm.UserControls;
+using MetroFramework.Controls;
 
 namespace MyCrm
 {
     public partial class MainForm : MetroForm
     {
-        private Dictionary<string, object> mapUserControlToTabs = new Dictionary<string, object>() {
-            { "membersTabPage", null },
+        private Dictionary<string, MetroUserControl> mapUserControlToTabs = new Dictionary<string, MetroUserControl>() {
+            { "membersTabPage", new MembersListUserControl() },
             { "optionsTabPage", new OptionsUserControl() }
         };
 
@@ -35,12 +36,25 @@ namespace MyCrm
         public void metroTabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             var tab = sender as MetroFramework.Controls.MetroTabControl;
-
+            //tab.SelectedTab.Controls[0].Dispose();
             tab.SelectedTab.Controls.Clear();
-            tab.SelectedTab.Controls.Add((MetroFramework.Controls.MetroUserControl)mapUserControlToTabs[tab.SelectedTab.Name]);
+            var control = /*(MetroFramework.Controls.MetroUserControl)*/mapUserControlToTabs[tab.SelectedTab.Name];
+
+            
+
+            tab.SelectedTab.Controls.Add(control);
+            //tab.SelectedTab.Controls[0].Focus();
         }
 
+        private void MainForm_MyDataChangedEvent(object sender, EventArgs args)
+        {
+            throw new NotImplementedException();
+        }
 
+        public T ConvertTo<T>(object input)
+        {
+            return (T)Convert.ChangeType(input, typeof(T));
+        }
 
 
         #region Properties

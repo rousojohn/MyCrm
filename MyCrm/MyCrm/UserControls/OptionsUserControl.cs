@@ -16,12 +16,15 @@ namespace MyCrm.UserControls
     {
         public OptionsUserControl()
         {
+            if (!Program.IsUserLoggedIn()) throw new Exception("User not logged in");
             InitializeComponent();
             //this.themeCombo.SelectedIndex = (Program.MainForm.Theme == MetroFramework.MetroThemeStyle.Light) ? 0 : 1;
             foreach (var item in Enum.GetValues(typeof(MetroColorStyle)))
             {
                 styleCombo.Items.Add(item);
             }
+
+
             
             //this.passTxt.CustomButton = new MetroTextBox.MetroTextButton();
             //this.passTxt.CustomButton.Click += (o, e) => { Console.WriteLine("test"); };

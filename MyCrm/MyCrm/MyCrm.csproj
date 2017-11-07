@@ -61,9 +61,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Address.cs" />
     <Compile Include="Classes\ApplicationSettings.cs" />
     <Compile Include="Classes\Log.cs" />
+    <Compile Include="Classes\Member.cs" />
     <Compile Include="Classes\User.cs" />
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +80,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\MembersListUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\MembersListUserControl.Designer.cs">
+      <DependentUpon>MembersListUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\OptionsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -90,6 +104,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\MembersListUserControl.resx">
+      <DependentUpon>MembersListUserControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OptionsUserControl.resx">
       <DependentUpon>OptionsUserControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -100,6 +117,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\MyCrm.Classes.Member.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

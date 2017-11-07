@@ -15,6 +15,7 @@ namespace MyCrm.Classes
         private string host = string.Empty;
         private int port = 0;
         private string logsPath = string.Empty;
+        private string database = string.Empty;
 
 
         static ApplicationSettings()
@@ -29,6 +30,7 @@ namespace MyCrm.Classes
         public string Host { get { return host; } set { host = value; } }
         public int Port { get { return port; } set { port = value; } }
         public string LogsPath { get { return logsPath; } set { logsPath = value; } }
+        public string Database { get { return database; } set { database = value; } }
 
 
 
@@ -57,6 +59,7 @@ namespace MyCrm.Classes
                 host = ConfigurationManager.AppSettings["Host"];
                 port = int.Parse(ConfigurationManager.AppSettings["Port"]);
                 logsPath = ConfigurationManager.AppSettings["LogsPath"];
+                database = ConfigurationManager.AppSettings["Database"];
                 Log.Instance.ConditionalDebug("Reading Application Configuration");
 
             }

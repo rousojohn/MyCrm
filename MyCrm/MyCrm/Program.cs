@@ -9,45 +9,144 @@ using MongoDB.Bson;
 
 namespace MyCrm
 {
+    public enum ApplicationState
+    {
+        AppStart,
+        UserLoggedIn,
+        UserLoggesOut
+    }
+
+
     static class Program
     {
         private static MainForm mainForm;
         private static readonly ApplicationSettings appSettings = ApplicationSettings.Instance;
+        private static IMongoDatabase crmDb;
+        private static User currentUser;
+        private static ApplicationState appState;
 
         public static MainForm MainForm { get { return Program.mainForm; } }
         public static ApplicationSettings AppSettings { get { return appSettings; } }
+        public static IMongoDatabase CrmDb { get { return crmDb; } }
+        public static User CurrentUser { get { return currentUser;  } }
+        public static ApplicationState AppState {  get { return appState; } }
+
+
+        public static bool IsUserLoggedIn ()
+        {
+            return ApplicationState.UserLoggedIn == appState;
+        }
+
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
+            appState = ApplicationState.AppStart;
+
             appSettings.Read();
 
-            var settings2 = new MongoClientSettings
+            crmDb = new MongoClient(new MongoClientSettings
             {
-                Server = new MongoServerAddress("localhost", 27017),
+                Server = new MongoServerAddress(appSettings.Host, appSettings.Port),
                 UseSsl = false
-            };
-            var client2 = new MongoClient(settings2);
+            }).GetDatabase(appSettings.Database);
 
-            IMongoDatabase db = client2.GetDatabase("myTest");
+            //var collection1 = crmDb.GetCollection<User>("users");
 
-            var collection1 = db.GetCollection<User>("test");
-            var collection2 = db.GetCollection<BsonDocument>("test2");
-
-            collection1.DeleteMany(FilterDefinition<User>.Empty);
-            collection2.DeleteMany(FilterDefinition<BsonDocument>.Empty);
+            //var collection1 = crmDb.GetCollection<Member>("members");
+            //collection1.DeleteMany(FilterDefinition<Member>.Empty);
 
 
-            collection2.InsertOne(new BsonDocument() { { "test", "zxcvzxcvzvczcxv" } });
-            collection1.InsertOne(new User() { Username = "rousojohn", Password = "123123123", Name = "Spyros" });
 
-            //var aaa = collection1.FindSync<BsonDocument>(FilterDefinition<User>.Empty).ToList();
+
+            //collection2.DeleteMany(FilterDefinition<BsonDocument>.Empty);
+
+
+            //collection2.InsertOne(new BsonDocument() { { "test", "zxcvzxcvzvczcxv" } });
+            //var _addresses = new Address[] {new Address()}
+            //collection1.InsertOne(new Member()
+            //{
+            //    Age = 19,
+            //    Birthdate = DateTime.Now,
+            //    Name = "spyros_membefffr",
+            //    Surname = "Surname",
+            //    Addresses = new Address[] {
+            //        new Address() {
+            //            PostalCode =16561,
+            //            Region = "Glyfada",
+            //            Street="Msfdfessinis",
+            //            StreetNo="23"
+            //        },
+            //        new Address() {
+            //            PostalCode =44444,
+            //            Region = "Glyasdfasdfadfsdfsdfsdfada",
+            //            Street="Messasdfadsfinis",
+            //            StreetNo="23"
+            //        }
+            //    }
+            //});
+
+
+            //collection1.InsertMany(new Member[]
+            //{
+            //    new Member()
+            //    {
+            //        Age = 19,
+            //        Birthdate = DateTime.Now,
+            //        Name = "spyros_membefffr",
+            //        Surname = "Surname",
+            //        Addresses = new Address[] {
+            //            new Address() {
+            //                PostalCode =16561,
+            //                Region = "Glyfada",
+            //                Street="Msfdfessinis",
+            //                StreetNo="23"
+            //            },
+            //            new Address() {
+            //                PostalCode =44444,
+            //                Region = "Glyasdfasdfadfsdfsdfsdfada",
+            //                Street="Messasdfadsfinis",
+            //                StreetNo="23"
+            //            }
+            //        }
+            //    }, 
+            //    new Member()
+            //    {
+                     
+            //        Age = 191,
+            //        Birthdate = DateTime.Now,
+            //        Name = "spyros_member",
+            //        Surname = "Surname",
+            //        Addresses = new Address[] {
+            //            new Address() {
+            //                PostalCode =16561,
+            //                Region = "Glyfada",
+            //                Street="Msfdfessinis",
+            //                StreetNo="23"
+            //            },
+            //            new Address() {
+            //                PostalCode =44444,
+            //                Region = "Glyasdfasdfadfsdfsdfsdfada",
+            //                Street="Messasdfadsfinis",
+            //                StreetNo="23"
+            //            }
+            //        }
+            //    }
+            //});
+
+            //var aaa = collection1.FindSync<BsonDocument>(FilterDefinition<Member>.Empty).ToList();
+            ////FilterDefinition<User> filter = new FilterDefinition<Member<>>
+            //Member aMember = collection1.FindSync<Member>(Builders<Member>.Filter.Where(u => u.Name.Equals("spyros_member"))).First();
+
+            appState = ApplicationState.UserLoggedIn;
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Program.mainForm = new MainForm();
+
             Application.Run(Program.mainForm);
         }
     }
